@@ -1,5 +1,6 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     // Entry point is the modele that webpack uses to start building its internal dependency graph.
@@ -25,6 +26,10 @@ module.exports = {
                 use:{ 
                     loader: 'babel-loader'
                 }
+            },
+            {
+                test: /\.css$/i,
+                use: [miniCssExtractPlugin.loader, 'css-loader'],
             }
         ]    
     },
@@ -34,6 +39,7 @@ module.exports = {
             inject: true,
             template: './public/index.html',
             filename: './index.html'
-        })
+        }),
+        new miniCssExtractPlugin(),
     ]
 }
