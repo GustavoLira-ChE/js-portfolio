@@ -10,7 +10,8 @@ module.exports = {
     // output property instructs webpack where to emit the bundle(s) and what name to use for the file(s)
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js'
+        filename: 'main.js',
+        assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     // Options for resolving module request. (Does not apply to resolving of loaders)
     resolve: {
@@ -19,6 +20,7 @@ module.exports = {
     //Webpack only understands JS and JSON files. Loaders allow webpack to process other types of files and convert them into valid modules that can be consumed by your application and added to the dependency graph
     module: {
         rules: [
+            //Babel loader
             {
                 // test property identifies which file or files should be transform
                 test: /\.m?js$/, 
@@ -29,13 +31,35 @@ module.exports = {
                     loader: 'babel-loader'
                 }
             },
+            // stylus loader
             {
                 test: /\.css|.styl$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader','stylus-loader'],
             },
+            // image loader
             {
-                test: /\.png/,
+                test: /\.png$/,
                 type: 'asset/resource'
+            },
+            //
+            {
+                test: /\.(woff|woff2)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        //Can be boolean too
+                        //Enable or disable trandformation of file to base64
+                        limit: 10000,
+                        //Specify the MIME (Multipurpose Internet Mail Extensions), it's the standar way to sent media file througth internet
+                        mimetype: "application/font-woff",
+                        //Specify the output name
+                        name: "[name].[ext]",
+                        outputPath: "./assets/fonts",
+                        publicPath: "./assets/fonts",
+                        //Specify this is not a module
+                        esModule: false,
+                    }
+                }
             }
         ]    
     },
