@@ -64,7 +64,7 @@ module.exports = {
                         //Specify the output name
                         name: "[name].[contenthash].[ext]",
                         outputPath: "./assets/fonts/",
-                        publicPath: "./assets/fonts/",
+                        publicPath: "../assets/fonts/",
                         //Specify this is not a module
                         esModule: false,
                     }
