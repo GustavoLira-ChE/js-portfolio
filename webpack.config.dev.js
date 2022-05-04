@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 
 module.exports = {
@@ -15,6 +17,7 @@ module.exports = {
         assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     mode: 'development',
+    devtool: 'source-map',
     // Options for resolving module request. (Does not apply to resolving of loaders)
     resolve: {
         extensions: ['.js'],
@@ -89,6 +92,7 @@ module.exports = {
             ]
         }),
         new Dotenv(),
+        new BundleAnalyzerPlugin(),
     ],
     devServer: {
         static: path.join(__dirname, 'dist'),
@@ -96,5 +100,5 @@ module.exports = {
         historyApiFallback: true,
         port: 8001,
         open: true
-    }
+    },
 }
