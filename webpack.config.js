@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CssMinimizarPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 
 module.exports = {
@@ -10,7 +12,7 @@ module.exports = {
     // output property instructs webpack where to emit the bundle(s) and what name to use for the file(s)
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js',
+        filename: '[name].[contenthash].js',
         assetModuleFilename: 'assets/images/[hash][ext][query]'
     },
     // Options for resolving module request. (Does not apply to resolving of loaders)
@@ -53,7 +55,7 @@ module.exports = {
                         //Specify the MIME (Multipurpose Internet Mail Extensions), it's the standar way to sent media file througth internet
                         mimetype: "application/font-woff",
                         //Specify the output name
-                        name: "[name].[ext]",
+                        name: "[name].[contenthash].[ext]",
                         outputPath: "./assets/fonts/",
                         publicPath: "./assets/fonts/",
                         //Specify this is not a module
@@ -70,12 +72,21 @@ module.exports = {
             template: './public/index.html',
             filename: './index.html'
         }),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'assets/[name].[contenthash].css'
+        }),
         new CopyPlugin({
             patterns: [
                 {from: path.resolve(__dirname, 'src', 'assets/images'),
             to: "assets/images"}
             ]
         })
-    ]
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new CssMinimizarPlugin(),
+            new TerserPlugin(),
+        ]
+    }
 }
