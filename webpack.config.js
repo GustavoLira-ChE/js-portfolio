@@ -1,6 +1,8 @@
 const path = require('path');
-const htmlWebpackPlugin = require('html-webpack-plugin');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
 
 module.exports = {
     // Entry point is the modele that webpack uses to start building its internal dependency graph.
@@ -29,17 +31,23 @@ module.exports = {
             },
             {
                 test: /\.css|.styl$/i,
-                use: [miniCssExtractPlugin.loader, 'css-loader','stylus-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader','stylus-loader'],
             }
         ]    
     },
     //while loaders are used to transform certain types of modules, plugins can be leveraged to perform a wider range of tasks like bundle optimization, asset management and injection of enviroment varibles
     plugins: [
-        new htmlWebpackPlugin({
+        new HtmlWebpackPlugin({
             inject: true,
             template: './public/index.html',
             filename: './index.html'
         }),
-        new miniCssExtractPlugin(),
+        new MiniCssExtractPlugin(),
+        new CopyPlugin({
+            patterns: [
+                {from: path.resolve(__dirname, 'src', 'assets/images'),
+            to: "assets/images"}
+            ]
+        })
     ]
 }
