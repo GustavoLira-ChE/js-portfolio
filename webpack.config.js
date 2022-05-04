@@ -54,8 +54,8 @@ module.exports = {
                         mimetype: "application/font-woff",
                         //Specify the output name
                         name: "[name].[ext]",
-                        outputPath: "./assets/fonts",
-                        publicPath: "./assets/fonts",
+                        outputPath: "./assets/fonts/",
+                        publicPath: "./assets/fonts/",
                         //Specify this is not a module
                         esModule: false,
                     }
