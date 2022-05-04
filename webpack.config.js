@@ -17,7 +17,14 @@ module.exports = {
     },
     // Options for resolving module request. (Does not apply to resolving of loaders)
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js'],
+        alias: {
+            '@utils': path.resolve(__dirname, 'src/utils/'),
+            '@templates': path.resolve(__dirname, 'src/templates/'),
+            '@styles': path.resolve(__dirname, 'src/styles/'),
+            '@images': path.resolve(__dirname, 'src/assets/images/'),
+            '@fonts': path.resolve(__dirname, 'src/assets/fonts/'),
+        }
     },
     //Webpack only understands JS and JSON files. Loaders allow webpack to process other types of files and convert them into valid modules that can be consumed by your application and added to the dependency graph
     module: {
